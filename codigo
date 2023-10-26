@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Imagens</title>
+    <style>
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .image-container img {
+            max-width: 200px;
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Galeria de Imagens</h1>
+
+    <input type="text" id="imageLink" placeholder="Link da Imagem">
+    <input type="file" id="imageFile">
+    <button onclick="addImage()">Adicionar Imagem</button>
+
+    <div class="image-container" id="imageGallery">
+        <!-- As imagens serão exibidas aqui -->
+    </div>
+
+    <script>
+        function addImage() {
+            const imageLink = document.getElementById('imageLink').value;
+            const imageFile = document.getElementById('imageFile').files[0];
+
+            if (imageLink || imageFile) {
+                const gallery = document.getElementById('imageGallery');
+                const imgElement = document.createElement('img');
+
+                if (imageLink) {
+                    imgElement.src = imageLink;
+                } else if (imageFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        imgElement.src = event.target.result;
+                    };
+                    reader.readAsDataURL(imageFile);
+                }
+
+                gallery.appendChild(imgElement);
+
+                // Limpar os campos
+                document.getElementById('imageLink').value = '';
+                document.getElementById('imageFile').value = '';
+            } else {
+                alert('Por favor, insira um link ou selecione um arquivo de imagem.');
+            }
+        }
+    </script>
+</body>
+</html>
